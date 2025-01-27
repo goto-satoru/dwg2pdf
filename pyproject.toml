@@ -1,10 +1,6 @@
 [tool.poetry]
 name = "dwg_converter"
-<<<<<<< HEAD
-version = "0.9.4"
-=======
 version = "0.9.5"
->>>>>>> 174e60e (0.9.5)
 description = "convert DWG into PDF using QCAD Pro dwg2pdf"
 authors = ["GOTO Satoru <satoru.goto@cognite.com>"]
 

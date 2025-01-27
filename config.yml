@@ -1,0 +1,31 @@
+---
+dwg:
+    dwg2pdf_args: ['-l', '-n', '-offset=66,43', '-s', '0.37', '-ltscale=0.15', '-fs', 'Standard', 'BIZ UDPGothic', '-fs', 'HGSsoeiKakugothicUB', 'MS UI Gothic', '-fs', 'romans', 'BIZ UDPGothic', '-fs', 'MS PGothic', 'BIZ UDPGothic', '-f']
+    tmp_dir: './tmp'
+    # conversion status table
+    raw_db: dwg2pdf
+    raw_table: converted_files
+
+logger:
+    console:
+        level: INFO
+    file:
+        path: dwg2pdf.log
+        level: DEBUG
+        # retention: 7
+
+state_store:
+    local:
+        path: states.json
+
+cognite:
+    host: ${COGNITE_BASE_URL}
+    project: ${COGNITE_PROJECT}
+    idp-authentication:
+        tenant: ${COGNITE_TENANT_ID}
+        client-id: ${COGNITE_CLIENT_ID}
+        secret: ${COGNITE_CLIENT_SECRET}
+        scopes:
+            - ${COGNITE_BASE_URL}/.default
+    extraction-pipeline:
+        external-id: dwg2pdf

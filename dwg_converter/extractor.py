@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 import logging
 import sys
 import arrow
 import os
 import subprocess
 import pandas as pd
-=======
-import arrow
-import logging
-import os
-import pandas as pd
-import subprocess
-import sys
->>>>>>> 174e60e (0.9.5)
 from threading import Event
 from cognite.client import CogniteClient
 from cognite.client.data_classes import ExtractionPipelineRun
@@ -47,12 +38,10 @@ def report_run(config: Config, client: CogniteClient, status: str, message: str)
 def delete_files(tmp_dir, logger):
     logger.info(f"Remove tempory DWG/PDF files in '{tmp_dir}' directory")
     for filename in os.listdir(tmp_dir):
-<<<<<<< HEAD
         try:
             os.remove(f"{tmp_dir}/{filename}")
         except Exception as e:
             logger.error(f"Failed to delete {tmp_dir}{filename}. Reason: {e}")
-=======
         if filename.endswith(".dwg") or filename.endswith(".pdf"):
             file_path = os.path.join(tmp_dir, filename)
             try:
@@ -60,7 +49,6 @@ def delete_files(tmp_dir, logger):
                 logger.info(f"Deleted file: {file_path}")
             except Exception as e:
                 logger.error(f"Failed to delete {file_path} - {e}")
->>>>>>> 174e60e (0.9.5)
 
 
 def dwg2pdf(config: Config, client: CogniteClient, dwg_filename: str, instance_id, meta_cdm, logger):
@@ -180,23 +168,14 @@ def run_extractor(cognite: CogniteClient, states: AbstractStateStore, config: Co
         meta_cdm = client.data_modeling.instances.retrieve_nodes(
             nodes=dwg.instance_id, node_cls=CogniteFile
         )
-<<<<<<< HEAD
-=======
         # print(meta_cdm)
->>>>>>> 174e60e (0.9.5)
         if meta_cdm is None:
             logger.info(f"*** CogniteFile property is None: {dwg.name}")
             continue
         tags = meta_cdm.tags
-<<<<<<< HEAD
-        if tags is not None:
-            logger.info(f"*** Already converted: {dwg.name}")
-            continue
-=======
         # if tags is not None:
         #     logger.info(f"*** Already converted: {dwg.name}")
         #     continue
->>>>>>> 174e60e (0.9.5)
         count += 1
         logger.info(f"--- #{count} {dwg.name}")
         pdf_file = dwg2pdf(config, client, dwg.name, dwg.instance_id, meta_cdm, logger)

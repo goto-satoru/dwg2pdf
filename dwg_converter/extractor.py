@@ -3,6 +3,7 @@ import sys
 import arrow
 import os
 import subprocess
+import time
 import pandas as pd
 from threading import Event
 from cognite.client import CogniteClient
@@ -38,17 +39,13 @@ def report_run(config: Config, client: CogniteClient, status: str, message: str)
 def delete_files(tmp_dir, logger):
     logger.info(f"Remove tempory DWG/PDF files in '{tmp_dir}' directory")
     for filename in os.listdir(tmp_dir):
-        try:
-            os.remove(f"{tmp_dir}/{filename}")
-        except Exception as e:
-            logger.error(f"Failed to delete {tmp_dir}{filename}. Reason: {e}")
         if filename.endswith(".dwg") or filename.endswith(".pdf"):
             file_path = os.path.join(tmp_dir, filename)
             try:
+                logger.info(f"  remove: {file_path}")
                 os.remove(file_path)
-                logger.info(f"Deleted file: {file_path}")
             except Exception as e:
-                logger.error(f"Failed to delete {file_path} - {e}")
+                logger.error(f"*** FAILED to remove: {file_path} - {e}")
 
 
 def dwg2pdf(config: Config, client: CogniteClient, dwg_filename: str, instance_id, meta_cdm, logger):
